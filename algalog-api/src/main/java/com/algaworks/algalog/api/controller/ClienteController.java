@@ -2,6 +2,7 @@ package com.algaworks.algalog.api.controller;
 
 import java.util.List;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +21,7 @@ import com.algaworks.algalog.domain.repository.ClienteRepository;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-	
+
 	private ClienteRepository clienteRepository;
 
 	public ClienteController(ClienteRepository clienteRepository) {
@@ -31,9 +32,9 @@ public class ClienteController {
 	// Busca por parte de um nome
 	@GetMapping
 	public List<Cliente> listar() {
-		return clienteRepository.findByNomeContaining("a");	
+		return clienteRepository.findByNomeContaining("a");
 	}
-	
+
 	// Buscando por Id retorna cliente info ou erro 404
 	@GetMapping("/{clienteId}")
 	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
@@ -41,36 +42,36 @@ public class ClienteController {
 				.map(ResponseEntity::ok)
 				.orElse(ResponseEntity.notFound().build()); // return error
 	}
-	
+
 	// Adiciona cliente transformando JSON em objeto java
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente adicionar (@RequestBody Cliente cliente) {
+	public Cliente adicionar (@Valid @RequestBody Cliente cliente) {
 		return clienteRepository.save(cliente);
 	}
-	
+
 	// Atualiza dados de um cliente
 	@PutMapping("/{clienteId}")
-	public ResponseEntity<Cliente> atualizar (@PathVariable Long clienteId, @RequestBody Cliente cliente) {
+	public ResponseEntity<Cliente> atualizar (@PathVariable Long clienteId, @Valid @RequestBody Cliente cliente) {
 		if (!clienteRepository.existsById(clienteId)) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		cliente.setId(clienteId);
 		cliente = clienteRepository.save(cliente);
-		
+
 		return ResponseEntity.ok(cliente);
 	}
-	
+
 	// Deletando dados de um cliente por id
 	@DeleteMapping("/{clienteId}")
 	public ResponseEntity<Void> remover (@PathVariable Long clienteId) {
 		if (!clienteRepository.existsById(clienteId)) {
 			return ResponseEntity.notFound().build();
 		}
-		
+
 		clienteRepository.deleteById(clienteId);
-		
+
 		return ResponseEntity.noContent().build();
 	}
 }

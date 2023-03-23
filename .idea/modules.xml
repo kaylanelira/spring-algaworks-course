@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/algalog-api/algalog-api.iml" filepath="$PROJECT_DIR$/algalog-api/algalog-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/spring-algaworks-course.iml" filepath="$PROJECT_DIR$/.idea/spring-algaworks-course.iml" />
     </modules>
   </component>
