@@ -2,7 +2,9 @@ package com.algaworks.algalog.api.controller;
 
 import java.util.List;
 
+import com.algaworks.algalog.domain.service.CatalogoClienteService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,8 +23,8 @@ import com.algaworks.algalog.domain.repository.ClienteRepository;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-
 	private ClienteRepository clienteRepository;
+	private CatalogoClienteService catalogoClienteService;
 
 	public ClienteController(ClienteRepository clienteRepository) {
 		super();
@@ -47,7 +49,7 @@ public class ClienteController {
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public Cliente adicionar (@Valid @RequestBody Cliente cliente) {
-		return clienteRepository.save(cliente);
+		return catalogoClienteService.salvar(cliente);
 	}
 
 	// Atualiza dados de um cliente
@@ -58,7 +60,7 @@ public class ClienteController {
 		}
 
 		cliente.setId(clienteId);
-		cliente = clienteRepository.save(cliente);
+		cliente = catalogoClienteService.salvar(cliente);
 
 		return ResponseEntity.ok(cliente);
 	}
@@ -70,7 +72,7 @@ public class ClienteController {
 			return ResponseEntity.notFound().build();
 		}
 
-		clienteRepository.deleteById(clienteId);
+		catalogoClienteService.excluir(clienteId);
 
 		return ResponseEntity.noContent().build();
 	}
