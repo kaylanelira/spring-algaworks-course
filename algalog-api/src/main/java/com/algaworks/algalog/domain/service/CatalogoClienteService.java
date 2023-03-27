@@ -2,6 +2,7 @@ package com.algaworks.algalog.domain.service;
 
 import com.algaworks.algalog.domain.exception.NegocioException;
 import com.algaworks.algalog.domain.model.Cliente;
+import com.algaworks.algalog.domain.model.Entrega;
 import com.algaworks.algalog.domain.repository.ClienteRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CatalogoClienteService {
     private ClienteRepository clienteRepository;
+
+    // exception caso insira cliente que não existe
+    public Cliente buscar (Long clienteId) {
+        return clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NegocioException("Cliente não encontrado"));
+    }
 
     // Transação = se houver algum erro dentro do método, todas as operações dele são descartadas
     @Transactional

@@ -23,7 +23,9 @@ import com.algaworks.algalog.domain.repository.ClienteRepository;
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
+	@Autowired
 	private ClienteRepository clienteRepository;
+	@Autowired
 	private CatalogoClienteService catalogoClienteService;
 
 	public ClienteController(ClienteRepository clienteRepository) {
