@@ -59,4 +59,16 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
         return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
     }
+
+    @ExceptionHandler(NaoEncontradoException.class)
+    public ResponseEntity<Object> handleNaoEncontrado (NegocioException ex, WebRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        Problem problem = new Problem();
+        problem.setStatus(status.value());
+        problem.setDataHora(OffsetDateTime.now());
+        problem.setTitulo(ex.getMessage());
+
+        return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+    }
 }
