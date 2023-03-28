@@ -2,8 +2,12 @@ package com.algaworks.algalog.api.controller;
 
 import java.util.List;
 
+import com.algaworks.algalog.api.assembler.ClienteAssembler;
+import com.algaworks.algalog.api.model.ClienteModel;
+import com.algaworks.algalog.api.model.input.ClienteInput;
 import com.algaworks.algalog.domain.service.CatalogoClienteService;
 import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,38 +24,36 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algalog.domain.model.Cliente;
 import com.algaworks.algalog.domain.repository.ClienteRepository;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/clientes")
 public class ClienteController {
-	@Autowired
 	private ClienteRepository clienteRepository;
-	@Autowired
 	private CatalogoClienteService catalogoClienteService;
+	private ClienteAssembler clienteAssembler;
 
-	public ClienteController(ClienteRepository clienteRepository) {
-		super();
-		this.clienteRepository = clienteRepository;
-	}
-
-	// Busca por parte de um nome
+	// Lista todos os clientes
 	@GetMapping
-	public List<Cliente> listar() {
-		return clienteRepository.findByNomeContaining("a");
+	public List<ClienteModel> listar() {
+		return clienteAssembler.toCollectionModel(clienteRepository.findAll());
 	}
 
 	// Buscando por Id retorna cliente info ou erro 404
-	@GetMapping("/{clienteId}")
-	public ResponseEntity<Cliente> buscar(@PathVariable Long clienteId) {
+	@GetMapping("/id/{clienteId}")
+	public ResponseEntity<ClienteModel> buscar(@PathVariable Long clienteId) {
 		return clienteRepository.findById(clienteId)
-				.map(ResponseEntity::ok)
-				.orElse(ResponseEntity.notFound().build()); // return error
+				.map(cliente -> ResponseEntity.ok(clienteAssembler.toModel(cliente)))
+				.orElse(ResponseEntity.notFound().build());
 	}
 
 	// Adiciona cliente transformando JSON em objeto java
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Cliente adicionar (@Valid @RequestBody Cliente cliente) {
-		return catalogoClienteService.salvar(cliente);
+	public ClienteModel adicionar (@Valid @RequestBody ClienteInput clienteInput) {
+		Cliente novoCliente = clienteAssembler.toEntity(clienteInput);
+		Cliente clienteAdicionado = catalogoClienteService.salvar(novoCliente);
+
+		return clienteAssembler.toModel(clienteAdicionado);
 	}
 
 	// Atualiza dados de um cliente
