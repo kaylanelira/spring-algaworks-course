@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
+// RESPONSÁVEL POR CONVERSÕES ENTRE CLIENTE E CLIENTEMODEL
 @AllArgsConstructor
 @Component
 public class ClienteAssembler {

@@ -1,4 +1,4 @@
-package com.algaworks.algalog.api.exceptionhandler;
+package com.algaworks.algalog.domain.exception;
 
 import com.algaworks.algalog.domain.exception.NegocioException;
 

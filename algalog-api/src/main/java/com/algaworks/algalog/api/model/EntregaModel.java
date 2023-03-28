@@ -9,9 +9,7 @@ import java.time.OffsetDateTime;
 
 @Getter
 @Setter
-// MODELO DE REPRESENTAÇÃO DA ENTREGA
 public class EntregaModel {
-//    private ClienteModel clienteModel;
     private Long id;
     private ClienteResumoModel cliente;
     private String nomeCliente;

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.stream.Collectors;
 
-// RESPONSÁVEL POR CONVERTER UM TIPO EM OUTRO
+// RESPONSÁVEL POR CONVERSÕES ENTRE ENTREGA E ENTREGAMODEL
 @AllArgsConstructor
 @Component
 public class EntregaAssembler {
@@ -25,7 +25,6 @@ public class EntregaAssembler {
                 .collect(Collectors.toList());  // transforma em list
     }
 
-    // converte entregainput em entrega
     public Entrega toEntity (EntregaInput entregaInput) {
         return modelMapper.map(entregaInput, Entrega.class);
     }

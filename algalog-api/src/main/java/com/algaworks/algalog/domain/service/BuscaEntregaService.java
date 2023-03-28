@@ -1,7 +1,6 @@
 package com.algaworks.algalog.domain.service;
 
-import com.algaworks.algalog.api.exceptionhandler.NaoEncontradoException;
-import com.algaworks.algalog.domain.exception.NegocioException;
+import com.algaworks.algalog.domain.exception.NaoEncontradoException;
 import com.algaworks.algalog.domain.model.Entrega;
 import com.algaworks.algalog.domain.repository.EntregaRepository;
 import lombok.AllArgsConstructor;

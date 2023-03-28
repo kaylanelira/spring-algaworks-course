@@ -18,11 +18,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/entrega/id/{entregaId}/ocorrencias")
 public class OcorrenciaController {
-
-    private RegistroOcorrenciaService registroOcorrenciaService;
     private OcorrenciaAssembler ocorrenciaAssembler;
+    private RegistroOcorrenciaService registroOcorrenciaService;
     private BuscaEntregaService buscaEntregaService;
 
+    // Registra uma ocorrência
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OcorrenciaModel registrar (@PathVariable Long entregaId,
@@ -32,6 +32,7 @@ public class OcorrenciaController {
         return ocorrenciaAssembler.toModel(ocorrenciaNova);
     }
 
+    // Lista todas as ocorrências
     @GetMapping
     public List<OcorrenciaModel> listar (@PathVariable Long entregaId) {
         Entrega entrega = buscaEntregaService.buscar(entregaId);

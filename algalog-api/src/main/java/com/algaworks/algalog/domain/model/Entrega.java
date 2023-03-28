@@ -1,19 +1,12 @@
 package com.algaworks.algalog.domain.model;
 
-import com.algaworks.algalog.domain.ValidationGroups;
 import com.algaworks.algalog.domain.exception.NegocioException;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.groups.ConvertGroup;
-import jakarta.validation.groups.Default;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +24,7 @@ public class Entrega {
     @ManyToOne
     private Cliente cliente;
 
-    @Embedded // impede que todos os dados de destinatarios estejam na tabela de entrega
+    @Embedded
     private Destinatario destinatario;
 
     @OneToMany(mappedBy = "entrega", cascade = CascadeType.ALL)
@@ -43,9 +36,9 @@ public class Entrega {
     private StatusEntrega status;
 
     private OffsetDateTime dataPedido;
-    // @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private OffsetDateTime dataFinalizacao;
 
+    // Adiciona uma nova ocorrência
     public Ocorrencia adicionarOcorrencia(String descricao) {
         Ocorrencia ocorrencia = new Ocorrencia();
         ocorrencia.setDescricao(descricao);
@@ -57,6 +50,7 @@ public class Entrega {
         return ocorrencia;
     }
 
+    // Verifica se pode finalizar a entrega e finaliza
     public void finalizar() {
         if(!podeFinalizar()) {
             throw new NegocioException("Entrega não pode ser finalizada.");
